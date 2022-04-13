@@ -1,0 +1,24 @@
+import seaborn as sns
+import matplotlib.pyplot as plt 
+import os 
+import pandas as pd 
+import numpy as np
+from sklearn.preprocessing import LabelEncoder
+from sklearn.cluster import KMeans
+
+os.listdir("../content/")
+
+filename = "../content/StudentsPerformance.csv"
+score_df = pd.read_csv(filename)
+score_df.head()
+
+fig, ax = plt.subplots()
+fig.subplots_adjust(hspace=0.8, wspace=0.8, left = 0.2, right = 1.5)
+for idx in range(3):
+    plt.subplot(1,3, idx+1)
+    gender_df = score_df.groupby("gender")[list(score_df.columns[-3:])[idx]].describe()
+    sns.barplot(gender_df.index, gender_df.loc[:,"mean"].values)
+    plt.ylabel("score")
+    plt.title(list(score_df.columns[-3:])[idx])
+    
+plt.show()
